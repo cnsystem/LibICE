@@ -1,0 +1,629 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include "ice.h"
+
+#define THIS_FILE "demo.cpp"
+
+#define PRINT(fmt, arg0, arg1, arg2, arg3, arg4, arg5)	    \
+	printed = pj_ansi_snprintf(p, maxlen - (p - buffer), \
+	fmt, arg0, arg1, arg2, arg3, arg4, arg5); \
+if (printed <= 0) return -PJ_ETOOSMALL; \
+	p += printed
+
+static cand_info remote;
+pj_caching_pool	 caching_pool;
+pj_pool_t		*pool;
+/* Utility to create a=candidate SDP attribute */
+static int print_cand(char buffer[], unsigned maxlen, const pj_ice_sess_cand *cand)
+{
+	char ipaddr[PJ_INET6_ADDRSTRLEN];
+	char *p = buffer;
+	int printed;
+
+	PRINT("a=candidate:%.*s %u UDP %u %s %u typ ",
+		(int)cand->foundation.slen,
+		cand->foundation.ptr,
+		(unsigned)cand->comp_id,
+		cand->prio,
+		pj_sockaddr_print(&cand->addr, ipaddr,
+		sizeof(ipaddr), 0),
+		(unsigned)pj_sockaddr_get_port(&cand->addr));
+
+	PRINT("%s\n",
+		pj_ice_get_cand_type_name(cand->type),
+		0, 0, 0, 0, 0);
+
+	if (p == buffer + maxlen)
+		return -PJ_ETOOSMALL;
+
+	*p = '\0';
+
+	return p - buffer;
+}
+
+/*
+* Encode ICE information in SDP.
+*/
+static int encode_session(cand_info info,char buffer[], unsigned maxlen)
+{
+	char *p = buffer;
+	unsigned comp;
+	int printed;
+	pj_str_t local_ufrag, local_pwd;
+	pj_status_t status;
+	int last_comp_id = -1;
+	/* Write "dummy" SDP v=, o=, s=, and t= lines */
+	PRINT("v=0\no=- 3414953978 3414953978 IN IP4 localhost\ns=ice\nt=0 0\n",
+		0, 0, 0, 0, 0, 0);
+
+	/* Write the a=ice-ufrag and a=ice-pwd attributes */
+	PRINT("a=ice-ufrag:%s\na=ice-pwd:%s\n", info.ufrag, info.pwd, 0, 0,	0, 0);
+	for (int i = 0; i < info.cand_cnt; i++)
+	{
+		pj_ice_sess_cand cand = info.cand[i];
+		char ipaddr[PJ_INET6_ADDRSTRLEN];
+		if (last_comp_id != cand.comp_id)
+		{
+			last_comp_id = cand.comp_id;
+			switch (cand.comp_id)
+			{
+			case 0:
+				PRINT("m=audio %d RTP/AVP 0\n"
+					"c=IN IP4 %s\n",
+					(int)pj_sockaddr_get_port(&cand.addr),
+					pj_sockaddr_print(&cand.addr, ipaddr, sizeof(ipaddr), 0),
+					0, 0, 0, 0);
+				break;
+			case 1:
+				PRINT("a=rtcp:%d IN IP4 %s\n",
+					(int)pj_sockaddr_get_port(&cand.addr),
+					pj_sockaddr_print(&cand.addr, ipaddr, sizeof(ipaddr), 0),
+					0, 0, 0, 0);
+				break;
+			default:
+				PRINT("a=Xice-defcand:%d IN IP4 %s\n",
+					(int)pj_sockaddr_get_port(&cand.addr),
+					pj_sockaddr_print(&cand.addr, ipaddr, sizeof(ipaddr), 0),
+					0, 0, 0, 0);
+				break;
+			}
+		}
+		printed = print_cand(p, maxlen - (p - buffer), &cand);
+		if (printed < 0)
+			return -PJ_ETOOSMALL;
+		p += printed;
+	}	
+	if (p == buffer + maxlen)
+		return -PJ_ETOOSMALL;
+
+	*p = '\0';
+	return p - buffer;
+}
+
+static void icedemo_show_ice(void)
+{
+	static char buffer[1000];
+	int len;
+	cand_info local;
+	ice_get_local_cand(&local);
+
+	puts("General info");
+	puts("---------------");
+	printf("Component count    : %d\n", local.comp_cnt);
+	/*
+	printf("Status             : ");
+	if (pj_ice_strans_sess_is_complete(icedemo.icest))
+		puts("negotiation complete");
+	else if (pj_ice_strans_sess_is_running(icedemo.icest))
+		puts("negotiation is in progress");
+	else if (pj_ice_strans_has_sess(icedemo.icest))
+		puts("session ready");
+	else
+		puts("session not created");
+
+	if (!pj_ice_strans_has_sess(icedemo.icest)) {
+		puts("Create the session first to see more info");
+		return;
+	}
+	
+	printf("Negotiated comp_cnt: %d\n",
+		pj_ice_strans_get_running_comp_cnt(icedemo.icest));
+	
+	printf("Role               : %s\n",
+		pj_ice_strans_get_role(icedemo.icest) == PJ_ICE_SESS_ROLE_CONTROLLED ?
+		"controlled" : "controlling");
+	*/
+	len = encode_session(local, buffer, sizeof(buffer));
+	if (len < 0)
+		printf("not enough buffer to show ICE status, less:%d", -len);
+	puts("");
+	printf("Local SDP (paste this to remote host):\n"
+		"--------------------------------------\n"
+		"%s\n", buffer);
+	puts("");
+	puts("Remote info:\n"
+		"----------------------");
+	if (remote.cand_cnt == 0) {
+		puts("No remote info yet");
+	}
+	else {
+		unsigned i;
+		printf("Remote ufrag       : %s\n", remote.ufrag);
+		printf("Remote password    : %s\n", remote.pwd);
+		printf("Remote cand. cnt.  : %d\n", remote.cand_cnt);
+		for (i = 0; i<remote.cand_cnt; ++i) {
+			len = print_cand(buffer, sizeof(buffer), &remote.cand[i]);
+			if (len < 0)
+				printf("not enough buffer to show ICE status, less:%d", -len);
+			printf("  %s", buffer);
+		}
+	}
+}
+
+static void icedemo_help_menu(void)
+{
+	puts("");
+	puts("-= Help on using ICE and this icedemo program =-");
+	puts("");
+	puts("This application demonstrates how to use ICE in pjnath without having\n"
+		"to use the SIP protocol. To use this application, you will need to run\n"
+		"two instances of this application, to simulate two ICE agents.\n");
+
+	puts("Basic ICE flow:\n"
+		" create instance [menu \"c\"]\n"
+		" repeat these steps as wanted:\n"
+		"   - init session as offerer or answerer [menu \"i\"]\n"
+		"   - display our SDP [menu \"s\"]\n"
+		"   - \"send\" our SDP from the \"show\" output above to remote, by\n"
+		"     copy-pasting the SDP to the other icedemo application\n"
+		"   - parse remote SDP, by pasting SDP generated by the other icedemo\n"
+		"     instance [menu \"r\"]\n"
+		"   - begin ICE negotiation in our end [menu \"b\"], and \n"
+		"   - immediately begin ICE negotiation in the other icedemo instance\n"
+		"   - ICE negotiation will run, and result will be printed to screen\n"
+		"   - send application data to remote [menu \"x\"]\n"
+		"   - end/stop ICE session [menu \"e\"]\n"
+		" destroy instance [menu \"d\"]\n"
+		"");
+
+	puts("");
+	puts("This concludes the help screen.");
+	puts("");
+}
+
+static void icedemo_print_menu(void)
+{
+	puts("");
+	puts("+----------------------------------------------------------------------+");
+	puts("|                    M E N U                                           |");
+	puts("+---+------------------------------------------------------------------+");
+	puts("| c | create           Create the instance                             |");
+	puts("| d | destroy          Destroy the instance                            |");
+	puts("| i | init o|a         Initialize ICE session as offerer or answerer   |");
+	puts("| e | stop             End/stop ICE session                            |");
+	puts("| s | show             Display local ICE info                          |");
+	puts("| r | remote           Input remote ICE info                           |");
+	puts("| b | start            Begin ICE negotiation                           |");
+	puts("| x | send <compid> .. Send data to remote                             |");
+	puts("+---+------------------------------------------------------------------+");
+	puts("| h |  help            * Help! *                                       |");
+	puts("| q |  quit            Quit                                            |");
+	puts("+----------------------------------------------------------------------+");
+}
+
+static void icedemo_input_remote(void)
+{
+	char linebuf[80];
+	unsigned media_cnt = 0;
+	unsigned comp0_port = 0;
+	char     comp0_addr[80];
+	pj_bool_t done = PJ_FALSE;
+
+	puts("Paste SDP from remote host, end with empty line");
+
+	pj_bzero(&remote, sizeof(remote));
+
+	comp0_addr[0] = '\0';
+
+	while (!done) {
+		int len;
+		char *line;
+
+		printf(">");
+		if (stdout) fflush(stdout);
+
+		if (fgets(linebuf, sizeof(linebuf), stdin) == NULL)
+			break;
+
+		len = strlen(linebuf);
+		while (len && (linebuf[len - 1] == '\r' || linebuf[len - 1] == '\n'))
+			linebuf[--len] = '\0';
+
+		line = linebuf;
+		while (len && pj_isspace(*line))
+			++line, --len;
+
+		if (len == 0)
+			break;
+
+		/* Ignore subsequent media descriptors */
+		if (media_cnt > 1)
+			continue;
+
+		switch (line[0]) {
+		case 'm':
+		{
+					int cnt;
+					char media[32], portstr[32];
+
+					++media_cnt;
+					if (media_cnt > 1) {
+						puts("Media line ignored");
+						break;
+					}
+
+					cnt = sscanf(line + 2, "%s %s RTP/", media, portstr);
+					if (cnt != 2) {
+						PJ_LOG(1, (THIS_FILE, "Error parsing media line"));
+						goto on_error;
+					}
+
+					comp0_port = atoi(portstr);
+
+		}
+			break;
+		case 'c':
+		{
+					int cnt;
+					char c[32], net[32], ip[80];
+
+					cnt = sscanf(line + 2, "%s %s %s", c, net, ip);
+					if (cnt != 3) {
+						PJ_LOG(1, (THIS_FILE, "Error parsing connection line"));
+						goto on_error;
+					}
+
+					strcpy(comp0_addr, ip);
+		}
+			break;
+		case 'a':
+		{
+					char *attr = strtok(line + 2, ": \t\r\n");
+					if (strcmp(attr, "ice-ufrag") == 0) {
+						strcpy(remote.ufrag, attr + strlen(attr) + 1);
+					}
+					else if (strcmp(attr, "ice-pwd") == 0) {
+						strcpy(remote.pwd, attr + strlen(attr) + 1);
+					}
+					else if (strcmp(attr, "rtcp") == 0) {
+						char *val = attr + strlen(attr) + 1;
+						int af, cnt;
+						int port;
+						char net[32], ip[64];
+						pj_str_t tmp_addr;
+						pj_status_t status;
+
+						cnt = sscanf(val, "%d IN %s %s", &port, net, ip);
+						if (cnt != 3) {
+							PJ_LOG(1, (THIS_FILE, "Error parsing rtcp attribute"));
+							goto on_error;
+						}
+
+						if (strchr(ip, ':'))
+							af = pj_AF_INET6();
+						else
+							af = pj_AF_INET();
+
+						pj_sockaddr_init(af, &remote.def_addr[1], NULL, 0);
+						tmp_addr = pj_str(ip);
+						status = pj_sockaddr_set_str_addr(af, &remote.def_addr[1],
+							&tmp_addr);
+						if (status != PJ_SUCCESS) {
+							PJ_LOG(1, (THIS_FILE, "Invalid IP address"));
+							goto on_error;
+						}
+						pj_sockaddr_set_port(&remote.def_addr[1], (pj_uint16_t)port);
+
+					}
+					else if (strcmp(attr, "candidate") == 0) {
+						char *sdpcand = attr + strlen(attr) + 1;
+						int af, cnt;
+						char foundation[32], transport[12], ipaddr[80], type[32];
+						pj_str_t tmpaddr;
+						int comp_id, prio, port;
+						pj_ice_sess_cand *cand;
+						pj_status_t status;
+
+						cnt = sscanf(sdpcand, "%s %d %s %d %s %d typ %s",
+							foundation,
+							&comp_id,
+							transport,
+							&prio,
+							ipaddr,
+							&port,
+							type);
+						if (cnt != 7) {
+							PJ_LOG(1, (THIS_FILE, "error: Invalid ICE candidate line"));
+							goto on_error;
+						}
+
+						cand = &remote.cand[remote.cand_cnt];
+						pj_bzero(cand, sizeof(*cand));
+
+						if (strcmp(type, "host") == 0)
+							cand->type = PJ_ICE_CAND_TYPE_HOST;
+						else if (strcmp(type, "srflx") == 0)
+							cand->type = PJ_ICE_CAND_TYPE_SRFLX;
+						else if (strcmp(type, "relay") == 0)
+							cand->type = PJ_ICE_CAND_TYPE_RELAYED;
+						else {
+							PJ_LOG(1, (THIS_FILE, "Error: invalid candidate type '%s'",
+								type));
+							goto on_error;
+						}
+
+						cand->comp_id = (pj_uint8_t)comp_id;
+						pj_strdup2(pool, &cand->foundation, foundation);
+						cand->prio = prio;
+
+						if (strchr(ipaddr, ':'))
+							af = pj_AF_INET6();
+						else
+							af = pj_AF_INET();
+
+						tmpaddr = pj_str(ipaddr);
+						pj_sockaddr_init(af, &cand->addr, NULL, 0);
+						status = pj_sockaddr_set_str_addr(af, &cand->addr, &tmpaddr);
+						if (status != PJ_SUCCESS) {
+							PJ_LOG(1, (THIS_FILE, "Error: invalid IP address '%s'",
+								ipaddr));
+							goto on_error;
+						}
+
+						pj_sockaddr_set_port(&cand->addr, (pj_uint16_t)port);
+
+						++remote.cand_cnt;
+
+						if (cand->comp_id > remote.comp_cnt)
+							remote.comp_cnt = cand->comp_id;
+					}
+		}
+			break;
+		}
+	}
+
+	if (remote.cand_cnt == 0 ||
+		remote.ufrag[0] == 0 ||
+		remote.pwd[0] == 0 ||
+		remote.comp_cnt == 0)
+	{
+		PJ_LOG(1, (THIS_FILE, "Error: not enough info"));
+		goto on_error;
+	}
+
+	if (comp0_port == 0 || comp0_addr[0] == '\0') {
+		PJ_LOG(1, (THIS_FILE, "Error: default address for component 0 not found"));
+		goto on_error;
+	}
+	else {
+		int af;
+		pj_str_t tmp_addr;
+		pj_status_t status;
+
+		if (strchr(comp0_addr, ':'))
+			af = pj_AF_INET6();
+		else
+			af = pj_AF_INET();
+
+		pj_sockaddr_init(af, &remote.def_addr[0], NULL, 0);
+		tmp_addr = pj_str(comp0_addr);
+		status = pj_sockaddr_set_str_addr(af, &remote.def_addr[0],
+			&tmp_addr);
+		if (status != PJ_SUCCESS) {
+			PJ_LOG(1, (THIS_FILE, "Invalid IP address in c= line"));
+			goto on_error;
+		}
+		pj_sockaddr_set_port(&remote.def_addr[0], (pj_uint16_t)comp0_port);
+	}
+
+	PJ_LOG(3, (THIS_FILE, "Done, %d remote candidate(s) added",
+		remote.cand_cnt));
+	return;
+
+on_error:
+	pj_bzero(&remote, sizeof(remote));
+}
+
+static void icedemo_console(void)
+{
+	pj_bool_t app_quit = PJ_FALSE;
+
+	while (!app_quit) {
+		char input[80], *cmd;
+		const char *SEP = " \t\r\n";
+		int len;
+
+		icedemo_print_menu();
+
+		printf("Input: ");
+		if (stdout) fflush(stdout);
+
+		pj_bzero(input, sizeof(input));
+		if (fgets(input, sizeof(input), stdin) == NULL)
+			break;
+
+		len = strlen(input);
+		while (len && (input[len - 1] == '\r' || input[len - 1] == '\n'))
+			input[--len] = '\0';
+
+		cmd = strtok(input, SEP);
+		if (!cmd)
+			continue;
+
+		if (strcmp(cmd, "stop") == 0 || strcmp(cmd, "e") == 0) {
+
+			ice_stop_session();
+
+		}
+		else if (strcmp(cmd, "show") == 0 || strcmp(cmd, "s") == 0) {
+
+			icedemo_show_ice();
+
+		}
+		else if (strcmp(cmd, "remote") == 0 || strcmp(cmd, "r") == 0) {
+
+			icedemo_input_remote();
+
+		}
+		else if (strcmp(cmd, "start") == 0 || strcmp(cmd, "b") == 0) {
+
+			ice_start_session(remote);
+
+		}
+		else if (strcmp(cmd, "send") == 0 || strcmp(cmd, "x") == 0) {
+
+			char *comp = strtok(NULL, SEP);
+
+			if (!comp) {
+				PJ_LOG(1, (THIS_FILE, "Error: component ID required"));
+			}
+			else {
+				char *data = comp + strlen(comp) + 1;
+				if (!data)
+					data = "";
+				ice_send_data(atoi(comp), data);
+			}
+
+		}
+		else if (strcmp(cmd, "help") == 0 || strcmp(cmd, "h") == 0) {
+
+			icedemo_help_menu();
+
+		}
+		else if (strcmp(cmd, "quit") == 0 || strcmp(cmd, "q") == 0) {
+
+			app_quit = PJ_TRUE;
+
+		}
+		else {
+
+			printf("Invalid command '%s'\n", cmd);
+
+		}
+	}
+}
+
+static void icedemo_usage()
+{
+	puts("Usage: icedemo [optons]");
+	printf("icedemo v%s by pjsip.org\n", pj_get_version());
+	puts("");
+	puts("General options:");
+	puts(" --comp-cnt, -c N          Component count (default=1)");
+	puts(" --nameserver, -n IP       Configure nameserver to activate DNS SRV");
+	puts("                           resolution");
+	puts(" --max-host, -H N          Set max number of host candidates to N");
+	puts(" --regular, -R             Use regular nomination (default aggressive)");
+	puts(" --log-file, -L FILE       Save output to log FILE");
+	puts(" --help, -h                Display this screen.");
+	puts("");
+	puts("STUN related options:");
+	puts(" --stun-srv, -s HOSTDOM    Enable srflx candidate by resolving to STUN server.");
+	puts("                           HOSTDOM may be a \"host_or_ip[:port]\" or a domain");
+	puts("                           name if DNS SRV resolution is used.");
+	puts("");
+	puts("TURN related options:");
+	puts(" --turn-srv, -t HOSTDOM    Enable relayed candidate by using this TURN server.");
+	puts("                           HOSTDOM may be a \"host_or_ip[:port]\" or a domain");
+	puts("                           name if DNS SRV resolution is used.");
+	puts(" --turn-tcp, -T            Use TCP to connect to TURN server");
+	puts(" --turn-username, -u UID   Set TURN username of the credential to UID");
+	puts(" --turn-password, -p PWD   Set password of the credential to WPWD");
+	puts(" --turn-fingerprint, -F    Use fingerprint for outgoing TURN requests");
+	puts("");
+}
+
+
+/*
+* And here's the main()
+*/
+int main(int argc, char *argv[])
+{
+	struct pj_getopt_option long_options[] = {
+		{ "comp-cnt", 1, 0, 'c' },
+		{ "nameserver", 1, 0, 'n' },
+		{ "max-host", 1, 0, 'H' },
+		{ "help", 0, 0, 'h' },
+		{ "stun-srv", 1, 0, 's' },
+		{ "turn-srv", 1, 0, 't' },
+		{ "turn-tcp", 0, 0, 'T' },
+		{ "turn-username", 1, 0, 'u' },
+		{ "turn-password", 1, 0, 'p' },
+		{ "turn-fingerprint", 0, 0, 'F' },
+		{ "regular", 0, 0, 'R' },
+		{ "log-file", 1, 0, 'L' },
+	};
+	int c, opt_id;
+	pj_status_t status;
+	ice_options opt = {0};
+	
+	opt.comp_cnt = 1;
+	opt.max_host = -1;
+
+	while ((c = pj_getopt_long(argc, argv, "c:n:s:t:u:p:H:L:hTFR", long_options, &opt_id)) != -1) {
+		switch (c) {
+		case 'c':
+			opt.comp_cnt = atoi(pj_optarg);
+			if (opt.comp_cnt < 1 || opt.comp_cnt >= PJ_ICE_MAX_COMP) {
+				puts("Invalid component count value");
+				return 1;
+			}
+			break;
+		case 'n':
+			opt.ns = pj_str(pj_optarg);
+			break;
+		case 'H':
+			opt.max_host = atoi(pj_optarg);
+			break;
+		case 'h':
+			icedemo_usage();
+			return 0;
+		case 's':
+			opt.stun_srv = pj_str(pj_optarg);
+			break;
+		case 't':
+			opt.turn_srv = pj_str(pj_optarg);
+			break;
+		case 'T':
+			opt.turn_tcp = PJ_TRUE;
+			break;
+		case 'u':
+			opt.turn_username = pj_str(pj_optarg);
+			break;
+		case 'p':
+			opt.turn_password = pj_str(pj_optarg);
+			break;
+		case 'F':
+			opt.turn_fingerprint = PJ_TRUE;
+			break;
+		case 'R':
+			opt.regular = PJ_TRUE;
+			break;
+		case 'L':
+			opt.log_file = pj_optarg;
+			break;
+		default:
+			printf("Argument \"%s\" is not valid. Use -h to see help",
+				argv[pj_optind]);
+			return 1;
+		}
+	}
+
+	status = ice_init(opt);
+	if (status != PJ_SUCCESS)
+		return 1;
+	pj_caching_pool_init(&caching_pool, NULL, 0);
+	pool = pj_pool_create(&caching_pool.factory, "demo", 512, 512, NULL);
+	icedemo_console();	
+	return 0;
+}

@@ -1,0 +1,112 @@
+﻿生成启动时间为 2014/2/10 19:44:55。
+     1>项目“D:\0.0 Code\2.0 MyCode\ice\pjlib\build\pjlib.vcxproj”在节点 3 上(Rebuild 个目标)。
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I../include /Zi /nologo /W4 /WX- /O2 /Oy- /D _LIB /D WIN32 /D PJ_WIN32=1 /D PJ_M_I386=1 /D NDEBUG /D _MBCS /Gm- /EHsc /MT /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo".\output\pjlib--Win32-vc8-Release-Static\\" /Fd".\output\pjlib--Win32-vc8-Release-Static\\vc120.pdb" /FR".\output\pjlib--Win32-vc8-Release-Static\\" /Gd /TC /analyze- /errorReport:prompt ..\src\pj\activesock.c ..\src\pj\addr_resolv_sock.c ..\src\pj\array.c ..\src\pj\config.c ..\src\pj\ctype.c ..\src\pj\errno.c ..\src\pj\except.c ..\src\pj\fifobuf.c ..\src\pj\file_access_win32.c ..\src\pj\file_io_win32.c ..\src\pj\guid.c ..\src\pj\guid_win32.c ..\src\pj\hash.c ..\src\pj\ioqueue_select.c ..\src\pj\ip_helper_win32.c ..\src\pj\list.c ..\src\pj\lock.c ..\src\pj\log.c ..\src\pj\log_writer_stdout.c ..\src\pj\os_core_win32.c ..\src\pj\os_error_win32.c ..\src\pj\os_info.c ..\src\pj\os_time_win32.c ..\src\pj\os_timestamp_common.c ..\src\pj\os_timestamp_win32.c ..\src\pj\pool.c ..\src\pj\pool_buf.c ..\src\pj\pool_caching.c ..\src\pj\pool_dbg.c ..\src\pj\pool_policy_malloc.c ..\src\pj\rand.c ..\src\pj\rbtree.c ..\src\pj\sock_bsd.c ..\src\pj\sock_common.c ..\src\pj\sock_qos_bsd.c ..\src\pj\sock_qos_common.c ..\src\pj\sock_qos_dummy.c ..\src\pj\sock_qos_wm.c ..\src\pj\sock_select.c ..\src\pj\ssl_sock_common.c ..\src\pj\ssl_sock_dump.c ..\src\pj\ssl_sock_ossl.c ..\src\pj\string.c ..\src\pj\timer.c ..\src\pj\types.c ..\src\pj\unicode_win32.c
+         activesock.c
+         addr_resolv_sock.c
+         array.c
+         config.c
+         ctype.c
+         errno.c
+         except.c
+         fifobuf.c
+         file_access_win32.c
+         file_io_win32.c
+         guid.c
+         guid_win32.c
+         hash.c
+         ioqueue_select.c
+         ip_helper_win32.c
+         list.c
+         lock.c
+         log.c
+         log_writer_stdout.c
+         os_core_win32.c
+         正在生成代码...
+         正在编译...
+         os_error_win32.c
+         os_info.c
+         os_time_win32.c
+         os_timestamp_common.c
+         os_timestamp_win32.c
+         pool.c
+         pool_buf.c
+         pool_caching.c
+         pool_dbg.c
+         pool_policy_malloc.c
+         rand.c
+         rbtree.c
+         sock_bsd.c
+         sock_common.c
+         sock_qos_bsd.c
+         sock_qos_common.c
+         sock_qos_dummy.c
+         sock_qos_wm.c
+         sock_select.c
+         ssl_sock_common.c
+         正在生成代码...
+         正在编译...
+         ssl_sock_dump.c
+         ssl_sock_ossl.c
+         string.c
+         timer.c
+         types.c
+         unicode_win32.c
+         正在生成代码...
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets(1354,5): warning MSB8012: TargetPath(D:\0.0 Code\2.0 MyCode\ice\pjlib\build\.\output\pjlib--Win32-vc8-Release-Static\pjlib.lib) does not match the Library's OutputFile property value (D:\0.0 Code\2.0 MyCode\ice\pjlib\lib\pjlib-i386-Win32-vc8-Release-Static.lib). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Lib.OutputFile).
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets(1356,5): warning MSB8012: TargetName(pjlib) does not match the Library's OutputFile property value (pjlib-i386-Win32-vc8-Release-Static). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Lib.OutputFile).
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\Lib.exe /OUT:"..\lib\pjlib-i386-Win32-vc8-Release-Static.lib" /NOLOGO ".\output\pjlib--Win32-vc8-Release-Static\\activesock.obj"
+         ".\output\pjlib--Win32-vc8-Release-Static\\addr_resolv_sock.obj"
+         ".\output\pjlib--Win32-vc8-Release-Static\\array.obj"
+         ".\output\pjlib--Win32-vc8-Release-Static\\config.obj"
+         ".\output\pjlib--Win32-vc8-Release-Static\\ctype.obj"
+         ".\output\pjlib--Win32-vc8-Release-Static\\errno.obj"
+         ".\output\pjlib--Win32-vc8-Release-Static\\except.obj"
+         ".\output\pjlib--Win32-vc8-Release-Static\\fifobuf.obj"
+         ".\output\pjlib--Win32-vc8-Release-Static\\file_access_win32.obj"
+         ".\output\pjlib--Win32-vc8-Release-Static\\file_io_win32.obj"
+         ".\output\pjlib--Win32-vc8-Release-Static\\guid.obj"
+         ".\output\pjlib--Win32-vc8-Release-Static\\guid_win32.obj"
+         ".\output\pjlib--Win32-vc8-Release-Static\\hash.obj"
+         ".\output\pjlib--Win32-vc8-Release-Static\\ioqueue_select.obj"
+         ".\output\pjlib--Win32-vc8-Release-Static\\ip_helper_win32.obj"
+         ".\output\pjlib--Win32-vc8-Release-Static\\list.obj"
+         ".\output\pjlib--Win32-vc8-Release-Static\\lock.obj"
+         ".\output\pjlib--Win32-vc8-Release-Static\\log.obj"
+         ".\output\pjlib--Win32-vc8-Release-Static\\log_writer_stdout.obj"
+         ".\output\pjlib--Win32-vc8-Release-Static\\os_core_win32.obj"
+         ".\output\pjlib--Win32-vc8-Release-Static\\os_error_win32.obj"
+         ".\output\pjlib--Win32-vc8-Release-Static\\os_info.obj"
+         ".\output\pjlib--Win32-vc8-Release-Static\\os_time_win32.obj"
+         ".\output\pjlib--Win32-vc8-Release-Static\\os_timestamp_common.obj"
+         ".\output\pjlib--Win32-vc8-Release-Static\\os_timestamp_win32.obj"
+         ".\output\pjlib--Win32-vc8-Release-Static\\pool.obj"
+         ".\output\pjlib--Win32-vc8-Release-Static\\pool_buf.obj"
+         ".\output\pjlib--Win32-vc8-Release-Static\\pool_caching.obj"
+         ".\output\pjlib--Win32-vc8-Release-Static\\pool_dbg.obj"
+         ".\output\pjlib--Win32-vc8-Release-Static\\pool_policy_malloc.obj"
+         ".\output\pjlib--Win32-vc8-Release-Static\\rand.obj"
+         ".\output\pjlib--Win32-vc8-Release-Static\\rbtree.obj"
+         ".\output\pjlib--Win32-vc8-Release-Static\\sock_bsd.obj"
+         ".\output\pjlib--Win32-vc8-Release-Static\\sock_common.obj"
+         ".\output\pjlib--Win32-vc8-Release-Static\\sock_qos_bsd.obj"
+         ".\output\pjlib--Win32-vc8-Release-Static\\sock_qos_common.obj"
+         ".\output\pjlib--Win32-vc8-Release-Static\\sock_qos_dummy.obj"
+         ".\output\pjlib--Win32-vc8-Release-Static\\sock_qos_wm.obj"
+         ".\output\pjlib--Win32-vc8-Release-Static\\sock_select.obj"
+         ".\output\pjlib--Win32-vc8-Release-Static\\ssl_sock_common.obj"
+         ".\output\pjlib--Win32-vc8-Release-Static\\ssl_sock_dump.obj"
+         ".\output\pjlib--Win32-vc8-Release-Static\\ssl_sock_ossl.obj"
+         ".\output\pjlib--Win32-vc8-Release-Static\\string.obj"
+         ".\output\pjlib--Win32-vc8-Release-Static\\timer.obj"
+         ".\output\pjlib--Win32-vc8-Release-Static\\types.obj"
+         ".\output\pjlib--Win32-vc8-Release-Static\\unicode_win32.obj"
+         pjlib.vcxproj -> D:\0.0 Code\2.0 MyCode\ice\pjlib\build\.\output\pjlib--Win32-vc8-Release-Static\pjlib.lib
+       BscMake:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\bscmake.exe /nologo /o".\output\pjlib--Win32-vc8-Release-Static\pjlib.bsc" ".\output\pjlib--Win32-vc8-Release-Static\\activesock.sbr" ".\output\pjlib--Win32-vc8-Release-Static\\addr_resolv_sock.sbr" ".\output\pjlib--Win32-vc8-Release-Static\\array.sbr" ".\output\pjlib--Win32-vc8-Release-Static\\config.sbr" ".\output\pjlib--Win32-vc8-Release-Static\\ctype.sbr" ".\output\pjlib--Win32-vc8-Release-Static\\errno.sbr" ".\output\pjlib--Win32-vc8-Release-Static\\except.sbr" ".\output\pjlib--Win32-vc8-Release-Static\\fifobuf.sbr" ".\output\pjlib--Win32-vc8-Release-Static\\file_access_win32.sbr" ".\output\pjlib--Win32-vc8-Release-Static\\file_io_win32.sbr" ".\output\pjlib--Win32-vc8-Release-Static\\guid.sbr" ".\output\pjlib--Win32-vc8-Release-Static\\guid_win32.sbr" ".\output\pjlib--Win32-vc8-Release-Static\\hash.sbr" ".\output\pjlib--Win32-vc8-Release-Static\\ioqueue_select.sbr" ".\output\pjlib--Win32-vc8-Release-Static\\ip_helper_win32.sbr" ".\output\pjlib--Win32-vc8-Release-Static\\list.sbr" ".\output\pjlib--Win32-vc8-Release-Static\\lock.sbr" ".\output\pjlib--Win32-vc8-Release-Static\\log.sbr" ".\output\pjlib--Win32-vc8-Release-Static\\log_writer_stdout.sbr" ".\output\pjlib--Win32-vc8-Release-Static\\os_core_win32.sbr" ".\output\pjlib--Win32-vc8-Release-Static\\os_error_win32.sbr" ".\output\pjlib--Win32-vc8-Release-Static\\os_info.sbr" ".\output\pjlib--Win32-vc8-Release-Static\\os_time_win32.sbr" ".\output\pjlib--Win32-vc8-Release-Static\\os_timestamp_common.sbr" ".\output\pjlib--Win32-vc8-Release-Static\\os_timestamp_win32.sbr" ".\output\pjlib--Win32-vc8-Release-Static\\pool.sbr" ".\output\pjlib--Win32-vc8-Release-Static\\pool_buf.sbr" ".\output\pjlib--Win32-vc8-Release-Static\\pool_caching.sbr" ".\output\pjlib--Win32-vc8-Release-Static\\pool_dbg.sbr" ".\output\pjlib--Win32-vc8-Release-Static\\pool_policy_malloc.sbr" ".\output\pjlib--Win32-vc8-Release-Static\\rand.sbr" ".\output\pjlib--Win32-vc8-Release-Static\\rbtree.sbr" ".\output\pjlib--Win32-vc8-Release-Static\\sock_bsd.sbr" ".\output\pjlib--Win32-vc8-Release-Static\\sock_common.sbr" ".\output\pjlib--Win32-vc8-Release-Static\\sock_qos_bsd.sbr" ".\output\pjlib--Win32-vc8-Release-Static\\sock_qos_common.sbr" ".\output\pjlib--Win32-vc8-Release-Static\\sock_qos_dummy.sbr" ".\output\pjlib--Win32-vc8-Release-Static\\sock_qos_wm.sbr" ".\output\pjlib--Win32-vc8-Release-Static\\sock_select.sbr" ".\output\pjlib--Win32-vc8-Release-Static\\ssl_sock_common.sbr" ".\output\pjlib--Win32-vc8-Release-Static\\ssl_sock_dump.sbr" ".\output\pjlib--Win32-vc8-Release-Static\\ssl_sock_ossl.sbr" ".\output\pjlib--Win32-vc8-Release-Static\\string.sbr" ".\output\pjlib--Win32-vc8-Release-Static\\timer.sbr" ".\output\pjlib--Win32-vc8-Release-Static\\types.sbr" ".\output\pjlib--Win32-vc8-Release-Static\\unicode_win32.sbr"
+     1>已完成生成项目“D:\0.0 Code\2.0 MyCode\ice\pjlib\build\pjlib.vcxproj”(Rebuild 个目标)的操作。
+
+生成成功。
+
+已用时间 00:00:08.91

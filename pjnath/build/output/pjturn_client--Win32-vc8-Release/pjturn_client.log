@@ -1,0 +1,69 @@
+﻿生成启动时间为 2014/2/10 20:00:17。
+     1>项目“D:\0.0 Code\2.0 MyCode\ice\pjnath\build\pjturn_client.vcxproj”在节点 2 上(Build 个目标)。
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I../include /I../../pjlib/include /I"../../pjlib-util/include" /Zi /nologo /W4 /WX- /O2 /Oy- /D _LIB /D WIN32 /D PJ_WIN32=1 /D PJ_M_I386=1 /D NDEBUG /D _MBCS /Gm- /EHsc /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo".\output\pjturn_client--Win32-vc8-Release\\" /Fd".\output\pjturn_client--Win32-vc8-Release\\vc120.pdb" /FR".\output\pjturn_client--Win32-vc8-Release\\" /Gd /TC /analyze- /errorReport:prompt "..\src\pjturn-client\client_main.c"
+         client_main.c
+     1>..\src\pjturn-client\client_main.c(156): warning C4244: “=”: 从“int”转换到“char”，可能丢失数据
+     1>..\src\pjturn-client\client_main.c(320): warning C4100: “addr_len”: 未引用的形参
+     1>..\src\pjturn-client\client_main.c(316): warning C4100: “relay”: 未引用的形参
+     1>..\src\pjturn-client\client_main.c(388): warning C4100: “addr_len”: 未引用的形参
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets(1186,5): warning MSB8012: TargetPath(D:\0.0 Code\2.0 MyCode\ice\pjnath\build\.\output\pjturn_client--Win32-vc8-Release\pjturn_client.exe) does not match the Linker's OutputFile property value (D:\0.0 Code\2.0 MyCode\ice\pjnath\bin\pjturn-client-i386-Win32-vc8-Release.exe). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets(1188,5): warning MSB8012: TargetName(pjturn_client) does not match the Linker's OutputFile property value (pjturn-client-i386-Win32-vc8-Release). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"..\bin\pjturn-client-i386-Win32-vc8-Release.exe" /INCREMENTAL:NO /NOLOGO netapi32.lib mswsock.lib ws2_32.lib odbc32.lib odbccp32.lib ole32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:".\output\pjturn_client--Win32-vc8-Release\pjturn_client.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\output\pjturn_client--Win32-vc8-Release\pjturn_client.lib" /MACHINE:X86 /SAFESEH ".\output\pjturn_client--Win32-vc8-Release\\client_main.obj"
+     1>client_main.obj : error LNK2019: 无法解析的外部符号 _pj_init，该符号在函数 _init 中被引用
+     1>client_main.obj : error LNK2019: 无法解析的外部符号 _pj_strerror，该符号在函数 _create_relay 中被引用
+     1>client_main.obj : error LNK2019: 无法解析的外部符号 _pjnath_init，该符号在函数 _init 中被引用
+     1>client_main.obj : error LNK2019: 无法解析的外部符号 _pj_sockaddr_print，该符号在函数 _menu 中被引用
+     1>client_main.obj : error LNK2019: 无法解析的外部符号 _pj_sockaddr_cmp，该符号在函数 _stun_sock_on_status 中被引用
+     1>client_main.obj : error LNK2019: 无法解析的外部符号 _pj_sockaddr_get_len，该符号在函数 _console_main 中被引用
+     1>client_main.obj : error LNK2019: 无法解析的外部符号 _pj_sockaddr_cp，该符号在函数 _stun_sock_on_status 中被引用
+     1>client_main.obj : error LNK2019: 无法解析的外部符号 _pj_str，该符号在函数 _create_relay 中被引用
+     1>client_main.obj : error LNK2019: 无法解析的外部符号 _pj_timer_heap_create，该符号在函数 _init 中被引用
+     1>client_main.obj : error LNK2019: 无法解析的外部符号 _pj_timer_heap_destroy，该符号在函数 _client_shutdown 中被引用
+     1>client_main.obj : error LNK2019: 无法解析的外部符号 _pj_timer_heap_poll，该符号在函数 _worker_thread 中被引用
+     1>client_main.obj : error LNK2019: 无法解析的外部符号 _pjlib_util_init，该符号在函数 _init 中被引用
+     1>client_main.obj : error LNK2019: 无法解析的外部符号 _pj_dns_resolver_create，该符号在函数 _create_relay 中被引用
+     1>client_main.obj : error LNK2019: 无法解析的外部符号 _pj_dns_resolver_set_ns，该符号在函数 _create_relay 中被引用
+     1>client_main.obj : error LNK2019: 无法解析的外部符号 _pj_ioqueue_create，该符号在函数 _init 中被引用
+     1>client_main.obj : error LNK2019: 无法解析的外部符号 _pj_ioqueue_destroy，该符号在函数 _client_shutdown 中被引用
+     1>client_main.obj : error LNK2019: 无法解析的外部符号 _pj_ioqueue_poll，该符号在函数 _worker_thread 中被引用
+     1>client_main.obj : error LNK2019: 无法解析的外部符号 _pj_stun_sock_op_name，该符号在函数 _stun_sock_on_status 中被引用
+     1>client_main.obj : error LNK2019: 无法解析的外部符号 _pj_stun_sock_cfg_default，该符号在函数 _init 中被引用
+     1>client_main.obj : error LNK2019: 无法解析的外部符号 _pj_stun_sock_create，该符号在函数 _init 中被引用
+     1>client_main.obj : error LNK2019: 无法解析的外部符号 _pj_stun_sock_start，该符号在函数 _init 中被引用
+     1>client_main.obj : error LNK2019: 无法解析的外部符号 _pj_stun_sock_destroy，该符号在函数 _client_shutdown 中被引用
+     1>client_main.obj : error LNK2019: 无法解析的外部符号 _pj_stun_sock_get_user_data，该符号在函数 _stun_sock_on_rx_data 中被引用
+     1>client_main.obj : error LNK2019: 无法解析的外部符号 _pj_stun_sock_get_info，该符号在函数 _stun_sock_on_status 中被引用
+     1>client_main.obj : error LNK2019: 无法解析的外部符号 _pj_stun_sock_sendto，该符号在函数 _console_main 中被引用
+     1>client_main.obj : error LNK2019: 无法解析的外部符号 _pj_turn_state_name，该符号在函数 _menu 中被引用
+     1>client_main.obj : error LNK2019: 无法解析的外部符号 _pj_turn_sock_create，该符号在函数 _create_relay 中被引用
+     1>client_main.obj : error LNK2019: 无法解析的外部符号 _pj_turn_sock_destroy，该符号在函数 _client_shutdown 中被引用
+     1>client_main.obj : error LNK2019: 无法解析的外部符号 _pj_turn_sock_get_info，该符号在函数 _menu 中被引用
+     1>client_main.obj : error LNK2019: 无法解析的外部符号 _pj_turn_sock_alloc，该符号在函数 _create_relay 中被引用
+     1>client_main.obj : error LNK2019: 无法解析的外部符号 _pj_turn_sock_set_perm，该符号在函数 _console_main 中被引用
+     1>client_main.obj : error LNK2019: 无法解析的外部符号 _pj_turn_sock_sendto，该符号在函数 _console_main 中被引用
+     1>client_main.obj : error LNK2019: 无法解析的外部符号 _pj_turn_sock_bind_channel，该符号在函数 _console_main 中被引用
+     1>client_main.obj : error LNK2019: 无法解析的外部符号 _pj_getopt_long，该符号在函数 _main 中被引用
+     1>client_main.obj : error LNK2019: 无法解析的外部符号 _pj_log_get_level，该符号在函数 _create_relay 中被引用
+     1>client_main.obj : error LNK2019: 无法解析的外部符号 _pj_log_1，该符号在函数 _create_relay 中被引用
+     1>client_main.obj : error LNK2019: 无法解析的外部符号 _pj_log_2，该符号在函数 _create_relay 中被引用
+     1>client_main.obj : error LNK2019: 无法解析的外部符号 _pj_log_3，该符号在函数 _create_relay 中被引用
+     1>client_main.obj : error LNK2019: 无法解析的外部符号 _pj_log_4，该符号在函数 _stun_sock_on_status 中被引用
+     1>client_main.obj : error LNK2019: 无法解析的外部符号 _pj_thread_create，该符号在函数 _init 中被引用
+     1>client_main.obj : error LNK2019: 无法解析的外部符号 _pj_thread_join，该符号在函数 _client_shutdown 中被引用
+     1>client_main.obj : error LNK2019: 无法解析的外部符号 _pj_thread_destroy，该符号在函数 _client_shutdown 中被引用
+     1>client_main.obj : error LNK2019: 无法解析的外部符号 _pj_pool_create，该符号在函数 _init 中被引用
+     1>client_main.obj : error LNK2019: 无法解析的外部符号 _pj_pool_release，该符号在函数 _client_shutdown 中被引用
+     1>client_main.obj : error LNK2019: 无法解析的外部符号 _pj_caching_pool_init，该符号在函数 _init 中被引用
+     1>client_main.obj : error LNK2019: 无法解析的外部符号 _pj_caching_pool_destroy，该符号在函数 _client_shutdown 中被引用
+     1>client_main.obj : error LNK2001: 无法解析的外部符号 _PJ_AF_INET
+     1>client_main.obj : error LNK2001: 无法解析的外部符号 _pj_optarg
+     1>client_main.obj : error LNK2001: 无法解析的外部符号 _pj_optind
+     1>client_main.obj : error LNK2001: 无法解析的外部符号 _pj_pool_factory_default_policy
+     1>..\bin\pjturn-client-i386-Win32-vc8-Release.exe : fatal error LNK1120: 50 个无法解析的外部命令
+     1>已完成生成项目“D:\0.0 Code\2.0 MyCode\ice\pjnath\build\pjturn_client.vcxproj”(Build 个目标)的操作 - 失败。
+
+生成失败。
+
+已用时间 00:00:01.17

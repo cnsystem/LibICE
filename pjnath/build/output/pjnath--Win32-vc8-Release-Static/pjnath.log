@@ -1,0 +1,41 @@
+﻿生成启动时间为 2014/2/10 19:44:50。
+     1>项目“D:\0.0 Code\2.0 MyCode\ice\pjnath\build\pjnath.vcxproj”在节点 2 上(Rebuild 个目标)。
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I../include /I../../pjlib/include /I"../../pjlib-util/include" /Zi /nologo /W4 /WX- /O2 /Oy- /D _LIB /D WIN32 /D PJ_WIN32=1 /D PJ_M_I386=1 /D NDEBUG /D _MBCS /Gm- /EHsc /MT /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo".\output\pjnath--Win32-vc8-Release-Static\\" /Fd".\output\pjnath--Win32-vc8-Release-Static\\vc120.pdb" /FR".\output\pjnath--Win32-vc8-Release-Static\\" /Gd /TC /analyze- /errorReport:prompt ..\src\pjnath\errno.c ..\src\pjnath\ice_session.c ..\src\pjnath\ice_strans.c ..\src\pjnath\nat_detect.c ..\src\pjnath\stun_auth.c ..\src\pjnath\stun_msg.c ..\src\pjnath\stun_msg_dump.c ..\src\pjnath\stun_session.c ..\src\pjnath\stun_sock.c ..\src\pjnath\stun_transaction.c ..\src\pjnath\turn_session.c ..\src\pjnath\turn_sock.c
+         errno.c
+         ice_session.c
+         ice_strans.c
+         nat_detect.c
+         stun_auth.c
+         stun_msg.c
+         stun_msg_dump.c
+         stun_session.c
+         stun_sock.c
+     1>..\src\pjnath\stun_sock.c(529): warning C4102: “TODO___SUPPORT_IPV6_IN_RESOLVER”: 未引用的标签
+         stun_transaction.c
+         turn_session.c
+         turn_sock.c
+         正在生成代码...
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets(1354,5): warning MSB8012: TargetPath(D:\0.0 Code\2.0 MyCode\ice\pjnath\build\.\output\pjnath--Win32-vc8-Release-Static\pjnath.lib) does not match the Library's OutputFile property value (D:\0.0 Code\2.0 MyCode\ice\pjnath\lib\pjnath-i386-Win32-vc8-Release-Static.lib). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Lib.OutputFile).
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets(1356,5): warning MSB8012: TargetName(pjnath) does not match the Library's OutputFile property value (pjnath-i386-Win32-vc8-Release-Static). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Lib.OutputFile).
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\Lib.exe /OUT:"..\lib\pjnath-i386-Win32-vc8-Release-Static.lib" /NOLOGO ".\output\pjnath--Win32-vc8-Release-Static\\errno.obj"
+         ".\output\pjnath--Win32-vc8-Release-Static\\ice_session.obj"
+         ".\output\pjnath--Win32-vc8-Release-Static\\ice_strans.obj"
+         ".\output\pjnath--Win32-vc8-Release-Static\\nat_detect.obj"
+         ".\output\pjnath--Win32-vc8-Release-Static\\stun_auth.obj"
+         ".\output\pjnath--Win32-vc8-Release-Static\\stun_msg.obj"
+         ".\output\pjnath--Win32-vc8-Release-Static\\stun_msg_dump.obj"
+         ".\output\pjnath--Win32-vc8-Release-Static\\stun_session.obj"
+         ".\output\pjnath--Win32-vc8-Release-Static\\stun_sock.obj"
+         ".\output\pjnath--Win32-vc8-Release-Static\\stun_transaction.obj"
+         ".\output\pjnath--Win32-vc8-Release-Static\\turn_session.obj"
+         ".\output\pjnath--Win32-vc8-Release-Static\\turn_sock.obj"
+         pjnath.vcxproj -> D:\0.0 Code\2.0 MyCode\ice\pjnath\build\.\output\pjnath--Win32-vc8-Release-Static\pjnath.lib
+       BscMake:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\bscmake.exe /nologo /o".\output\pjnath--Win32-vc8-Release-Static\pjnath.bsc" ".\output\pjnath--Win32-vc8-Release-Static\\errno.sbr" ".\output\pjnath--Win32-vc8-Release-Static\\ice_session.sbr" ".\output\pjnath--Win32-vc8-Release-Static\\ice_strans.sbr" ".\output\pjnath--Win32-vc8-Release-Static\\nat_detect.sbr" ".\output\pjnath--Win32-vc8-Release-Static\\stun_auth.sbr" ".\output\pjnath--Win32-vc8-Release-Static\\stun_msg.sbr" ".\output\pjnath--Win32-vc8-Release-Static\\stun_msg_dump.sbr" ".\output\pjnath--Win32-vc8-Release-Static\\stun_session.sbr" ".\output\pjnath--Win32-vc8-Release-Static\\stun_sock.sbr" ".\output\pjnath--Win32-vc8-Release-Static\\stun_transaction.sbr" ".\output\pjnath--Win32-vc8-Release-Static\\turn_session.sbr" ".\output\pjnath--Win32-vc8-Release-Static\\turn_sock.sbr"
+     1>已完成生成项目“D:\0.0 Code\2.0 MyCode\ice\pjnath\build\pjnath.vcxproj”(Rebuild 个目标)的操作。
+
+生成成功。
+
+已用时间 00:00:06.38

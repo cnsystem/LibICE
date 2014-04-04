@@ -1,0 +1,19 @@
+﻿生成启动时间为 2014/2/20 22:40:28。
+     1>项目“D:\0.0 Code\2.0 MyCode\ice\ice\demo\demo.vcxproj”在节点 2 上(Build 个目标)。
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I../../pjlib/include /I"../../pjlib-util/include" /I../../pjnath/include /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt ice.cpp
+         ice.cpp
+     1>ice.cpp(21): warning C4091: “typedef ”: 没有声明变量时忽略“ice_instance”的左侧
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\0.0 Code\2.0 MyCode\ice\ice\Release\demo.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:..\..\pjlib\lib /LIBPATH:"..\..\pjlib-util\lib" /LIBPATH:..\..\pjnath\lib "pjlib-i386-Win32-vc8-Release-Static.lib" "pjlib-util-i386-Win32-vc8-Release-Static.lib" "pjnath-i386-Win32-vc8-Release-Static.lib" netapi32.lib mswsock.lib ws2_32.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\0.0 Code\2.0 MyCode\ice\ice\Release\demo.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\0.0 Code\2.0 MyCode\ice\ice\Release\demo.lib" /MACHINE:X86 /SAFESEH Release\demo.obj
+         Release\ice.obj
+         Release\stdafx.obj
+     1>LINK : warning LNK4098: 默认库“LIBCMT”与其他库的使用冲突；请使用 /NODEFAULTLIB:library
+         正在生成代码
+         已完成代码的生成
+         demo.vcxproj -> D:\0.0 Code\2.0 MyCode\ice\ice\Release\demo.exe
+     1>已完成生成项目“D:\0.0 Code\2.0 MyCode\ice\ice\demo\demo.vcxproj”(Build 个目标)的操作。
+
+生成成功。
+
+已用时间 00:00:00.86
